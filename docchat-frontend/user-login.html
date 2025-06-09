@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Login – DocChat AI</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #111827;
+    }
+    .header {
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #e5e7eb;
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 85vh;
+    }
+    .login-card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+    }
+    .login-icon {
+      font-size: 2.5rem;
+      background: #f3f4f6;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1rem;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    h2 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    p {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 2rem;
+    }
+    .input-group {
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    input {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      background: #1e293b;
+      color: white;
+      padding: 0.75rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 6px;
+      margin: 1rem 0;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #0f172a;
+    }
+    .alt-logins {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .alt-btn {
+      border: 1px solid #d1d5db;
+      padding: 0.6rem;
+      font-weight: 500;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      background: #fff;
+      cursor: pointer;
+    }
+    .alt-btn:hover {
+      background: #f3f4f6;
+    }
+    .demo-note {
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">DocChat AI</div>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-icon">👤</div>
+      <h2>User Login</h2>
+      <p>Access your personal dashboard</p>
+      <form onsubmit="handleEmailPasswordLogin(event)">
+        <div class="input-group">
+          <label>Email Address</label>
+          <input type="email" id="email" placeholder="Enter your email" required />
+        </div>
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required />
+        </div>
+        <button class="btn" type="submit">Sign In</button>
+        <button class="alt-btn" type="button" onclick="handleForgotPassword()">🔑 Forgot Password</button>
+      </form>
+      <div class="alt-logins">
+        <button class="alt-btn" onclick="handleGoogleLogin()">🟦 Sign in with Google</button>
+        <button class="alt-btn" onclick="handlePhoneLogin()">📱 Sign in with Phone Number</button>
+        <button class="alt-btn" onclick="handleAnonymousLogin()">👻 Continue Anonymously</button>
+      </div>
+      <p class="demo-note">Demo credentials: any valid method works</p>
+    </div>
+  </div>
+
+  <!-- 🔐 Invisible CAPTCHA required for phone login -->
+  <div id="recaptcha-container"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-analytics.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signInWithPopup,
+      signInAnonymously,
+      GoogleAuthProvider,
+      RecaptchaVerifier,
+      signInWithPhoneNumber,
+      sendPasswordResetEmail
+    } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDo_6b6MxyTLmZVOMofccJthjC5fckXLBk",
+    authDomain: "dochat-ai.firebaseapp.com",
+    projectId: "dochat-ai",
+    storageBucket: "dochat-ai.firebasestorage.app",
+    messagingSenderId: "205092838327",
+    appId: "1:205092838327:web:6264ec5d01da725d596632",
+    measurementId: "G-F102N6PGZ3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    window.handleEmailPasswordLogin = (e) => {
+  e.preventDefault();
+  const email = document.querySelector('input[type="email"]').value;
+  const password = document.querySelector('input[type="password"]').value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      alert("Login successful: " + userCredential.user.email);
+      window.location.href = "user.html";
+    })
+    .catch((error) => {
+      alert("Login failed: " + error.message);
+    });
+};
+
+// ✅ Match these with button onclick names
+window.handleGoogleLogin = () => {
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      alert("Google Sign-In Success: " + result.user.email);
+      window.location.href = "user.html";
+    })
+    .catch((error) => {
+      alert("Google Sign-In Error: " + error.message);
+    });
+};
+
+window.handleAnonymousLogin = () => {
+  signInAnonymously(auth)
+    .then(() => {
+      alert("Logged in anonymously");
+      window.location.href = "user.html";
+    })
+    .catch((error) => {
+      alert("Anonymous login failed: " + error.message);
+    });
+};
+
+window.handlePhoneLogin = () => {
+  const phone = prompt("Enter phone number with country code (e.g., +91XXXXXXXXXX):");
+  if (!phone) return;
+
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+    size: 'invisible',
+    callback: () => {}
+  });
+
+  signInWithPhoneNumber(auth, phone, window.recaptchaVerifier)
+    .then((confirmationResult) => {
+      const code = prompt("Enter the OTP sent to your phone:");
+      return confirmationResult.confirm(code);
+    })
+    .then((result) => {
+      alert("Phone login successful: " + result.user.phoneNumber);
+      window.location.href = "user.html";
+    })
+    .catch((error) => {
+      alert("Phone login failed: " + error.message);
+    });
+};
+
+window.handleForgotPassword = () => {
+  const email = document.querySelector('input[type="email"]').value;
+  if (!email) return alert("Please enter your email above first.");
+
+  sendPasswordResetEmail(auth, email)
+    .then(() => {
+      alert("✅ Password reset email sent. Check your inbox.");
+    })
+    .catch((error) => {
+      alert("❌ Error sending reset email: " + error.message);
+    });
+};
+  </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DocChat AI Platform</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #111827;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 1rem;
+    }
+
+    .header {
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.25rem;
+    }
+
+    .btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-blue {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .btn-blue:hover {
+      background: #2563eb;
+    }
+
+    .btn-outline {
+      background: white;
+      border: 1px solid #cbd5e1;
+      color: #111827;
+    }
+
+    .btn-outline:hover {
+      border-color: #94a3b8;
+      background: #f1f5f9;
+    }
+
+    .hero {
+      background: #f3f4f6;
+      padding: 5rem 1rem 4rem;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      max-width: 640px;
+      margin: 0 auto;
+      color: #6b7280;
+      font-size: 1.125rem;
+    }
+
+    .button-row {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .features {
+      background: #ffffff;
+      padding: 4rem 1rem;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 1.875rem;
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .feature-card {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: left;
+      transition: box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: #6b7280;
+    }
+
+    .cta {
+      padding: 4rem 1rem;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .cta p {
+      color: #6b7280;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer {
+      background: #111827;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    .footer-text {
+      color: #9ca3af;
+      font-size: 0.875rem;
+    }
+
+    .top-buttons {
+      display: flex;
+      gap: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header container">
+    <div class="logo">DocChat AI</div>
+    <div class="top-buttons">
+      <a href="user-login.html" class="btn btn-outline">User Login</a>
+      <a href="admin-login.html" class="btn btn-blue">Admin Login</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>DocChat AI Platform</h1>
+    <p>
+      Revolutionize your document management with AI-powered conversations,
+      seamless file uploads, and comprehensive analytics.
+    </p>
+    <div class="button-row">
+      <a href="user-login.html" class="btn btn-blue">Get Started as User</a>
+      <a href="admin-login.html" class="btn btn-outline">Admin Dashboard</a>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="container">
+      <h2>Powerful Features for Modern Teams</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>💬 AI-Powered Chat</h3>
+          <p>Intelligent conversations with advanced AI technology.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📤 Easy File Upload</h3>
+          <p>Drag and drop files with progress tracking.</p>
+        </div>
+        <div class="feature-card">
+          <h3>📊 Advanced Analytics</h3>
+          <p>Comprehensive insights and reporting.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🛡️ Secure Access</h3>
+          <p>Role-based authentication and permissions.</p>
+        </div>
+        <div class="feature-card">
+          <h3>👥 Multi-User Support</h3>
+          <p>Separate interfaces for users and administrators.</p>
+        </div>
+        <div class="feature-card">
+          <h3>⚡ Real-time Updates</h3>
+          <p>Live status updates and notifications.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <h2>Ready to Transform Your Workflow?</h2>
+    <p>Join thousands of users who trust DocChat AI for their document management needs.</p>
+    <a href="user-login.html" class="btn btn-blue">Start Your Journey Today</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-text">© 2025 DocChat AI. All rights reserved.</div>
+    </div>
+  </footer>
+
+</body>
+</html>
