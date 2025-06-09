@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: docchat-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port 10000
+    envVars:
+      - key: FIREBASE_CREDENTIAL_PATH
+        value: firebase-service-account.json
+      - key: OPENAI_API_KEY
+        envVars:
+  - key: OPENAI_API_KEY
+    sync: false 
+      - key: OPENAI_MODEL
+        value: gpt-4o
