@@ -1,81 +1,72 @@
-# DocChat
+# 🧠 DocChat AI
 
-# 🧠 DocChat Backend
-
-DocChat is an AI-powered document chat backend that enables users to upload files (PDFs, text), chat with the content using LLMs (e.g., GPT-4o), and gain insights. This is the backend for the DocChat platform, built using FastAPI, FAISS, Firebase, and LangChain.
+DocChat AI is a full-stack intelligent documentation assistant powered by GPT and RAG (Retrieval-Augmented Generation). It allows users to upload documents (PDF/Text), query them through a chat interface, and receive context-aware answers. It includes a secure admin dashboard and multi-method authentication (Email, Google, Phone).
 
 ---
 
-## 🚀 Features
+## 📁 Project Structure
 
-- Upload documents (PDF, TXT)
-- Extract and chunk text
-- Store in FAISS vector DB
-- Query documents using OpenAI GPT
-- Firebase Authentication
-- Chat analytics & logging
-- Cloud Run compatible
+docchat/
+├── backend/                  # FastAPI Backend (Deployed on Cloud Run)
+│   ├── main.py
+│   ├── routes/
+│   ├── services/
+│   ├── models/
+│   ├── firebase-service-account.json (excluded from GitHub)
+│   ├── .env                  # Stores secrets (excluded from GitHub)
+│   ├── requirements.txt
+│   └── Dockerfile
+├── frontend/                 # Frontend (Hosted via Firebase or GitHub Pages)
+│   ├── index.html
+│   ├── user-login.html
+│   ├── admin-login.html
+│   ├── user.html
+│   ├── admin.html
+│   └── assets/ (if any)
+
+---
+
+## 🚀 Live Demo
+
+- 🌐 **Frontend:** [your-frontend-link]
+- ⚙️ **Backend (API):** [your-cloud-run-endpoint]
 
 ---
 
 ## 🛠️ Setup Instructions
 
-### 🔧 Local Development
+### Backend (FastAPI + RAG)
 
-1. **Clone the repo**
-   ```bash
-   git clone https://github.com/sanskargupta1808/docchat-backend.git
-   cd docchat-backend
+#### 1. Clone the Repo
 
-	2.	Create a virtual environment
+```bash
+
+
+git clone https://github.com/your-username/docchat-ai.git
+cd docchat-ai/backend
+
+2. Create Virtual Environment
 
 python3 -m venv env
 source env/bin/activate
 
+3. Install Dependencies
 
-	3.	Install dependencies
-
-pip install --upgrade pip
 pip install -r requirements.txt
 
+4. Add Required Files
+	•	.env:
 
-	4.	Create a .env file
+OPENAI_API_KEY=your-key
+FIREBASE_PROJECT_ID=your-firebase-id
 
-OPENAI_API_KEY=your_openai_api_key
-OPENAI_MODEL=gpt-4o
-FIREBASE_CREDENTIAL_PATH=firebase-service-account.json
+	•	firebase-service-account.json: Download from Firebase Console → Project Settings → Service Accounts.
 
-
-	5.	Add your firebase-service-account.json to the project root.
-	6.	Run the server
+5. Run Backend
 
 uvicorn main:app --host 0.0.0.0 --port 8080
 
-
-	7.	Access via:
-
-http://localhost:8080/
-
-
-
-⸻
-
-#☁️ Google Cloud Run Deployment
-
-Prerequisites: GCP account, gcloud CLI, billing enabled
-
-	1.	Login & set project
-
-gcloud auth login
-gcloud config set project <your-project-id>
-
-
-	2.	Enable required services
-
-gcloud services enable run.googleapis.com cloudbuild.googleapis.com
-
-
-	3.	Deploy
+6. Deploy on Google Cloud Run
 
 gcloud run deploy docchat-backend \
   --source . \
@@ -85,125 +76,111 @@ gcloud run deploy docchat-backend \
   --port 8080
 
 
+⸻
+
+Frontend (HTML + Firebase)
+
+1. Open frontend/ folder
+
+Make sure you’ve configured Firebase Hosting:
+
+firebase login
+firebase init hosting
+firebase deploy
+
+You can also deploy on GitHub Pages or Netlify.
 
 ⸻
 
-#🧱 Architecture Overview
+⚙️ Architecture Overview
 
-User
- │
- ├─ Upload Document (/files/upload)
- │    └─ PDF/Text → TextExtractor → Chunker → FAISS Vector Store
- │
- ├─ Ask Question (/chat/ask)
- │    └─ Question + Doc ID → Embed + Search → LangChain → GPT Response
- │
- └─ Firebase Auth → Secured Endpoints
-
-Core Components:
-	•	FastAPI: REST API layer
-	•	FAISS: Local vector similarity DB
-	•	OpenAI: GPT for answer generation
-	•	LangChain: Chain & memory management
-	•	Firebase: Authentication and user control
-	•	SQLAlchemy + SQLite: Data logging
-
-⸻
-
-#📡 API Usage Guidelines
-
-🔐 Authentication (Firebase)
-
-All requests must be authenticated using a Firebase Bearer Token in headers:
-
-Authorization: Bearer <token>
+[User/Admin] ⇄ [Frontend (HTML/CSS/JS)] ⇄ [FastAPI Backend] ⇄ [RAG Engine + GPT-4]
+                                                          ⇓
+                                             [PDF/Text Document Indexing via FAISS]
+                                                          ⇓
+                                              [Firebase for Auth + Storage + Logs]
 
 
 ⸻
 
-📁 /files
+📌 Core Features
+	•	📤 Document upload (PDFs/Text)
+	•	🔍 Semantic search with FAISS & sentence-transformers
+	•	🤖 GPT-4 powered chat with context-based document retrieval
+	•	🔐 Firebase Auth: Email, Google, Phone, Anonymous
+	•	📊 Admin dashboard with analytics & user monitoring
+	•	🎨 Simple and intuitive chat UI (user.html)
 
-Upload File
+⸻
+
+📡 API Usage Guidelines
+
+GET /
+
+Check server status.
+
+{
+  "message": "DocChat Backend is Live!"
+}
+
+
+⸻
 
 POST /files/upload
-	•	FormData: file (PDF/TXT)
 
-Response:
+Upload a document (PDF or Text).
+
+Form data: file: File
+
+⸻
+
+POST /chat/query
+
+Send a query to the document chat assistant.
 
 {
-  "message": "File uploaded and processed",
-  "document_id": "abc123"
+  "query": "What is the refund policy?",
+  "doc_id": "document_xyz"
 }
 
 
 ⸻
-
-💬 /chat
-
-Ask Question
-
-POST /chat/ask
-
-Body:
-
-{
-  "document_id": "abc123",
-  "question": "What are the main ideas?"
-}
-
-Response:
-
-{
-  "response": "The main ideas are..."
-}
-
-
-⸻
-
-📈 /analytics
 
 GET /analytics/queries
-	•	Get query logs per user/document
+
+Get all queries for a specific document/user.
 
 ⸻
 
-👥 /users
+📦 Dependencies
 
-GET /users/me
-	•	Get authenticated user details from Firebase
-
-⸻
-
-🔥 /test-firebase
-
-GET /test-firebase
-	•	Debug Firebase integration
+From requirements.txt:
+	•	fastapi, uvicorn, pydantic, python-dotenv, firebase-admin
+	•	openai, faiss-cpu, sentence-transformers, langchain
+	•	PyPDF2, PyMuPDF, aiofiles, requests, SQLAlchemy, tqdm, etc.
 
 ⸻
 
-📂 Project Structure
-
-docchat-backend/
-├── routes/
-├── services/
-├── models/
-├── data/
-├── uploads/
-├── main.py
-├── requirements.txt
-├── firebase-service-account.json (NOT INCLUDED IN DEPLOY)
-├── .env (NOT INCLUDED IN DEPLOY)
-
+🔒 Security
+	•	.env and firebase-service-account.json are excluded from GitHub.
+	•	Environment variables used to manage secrets on deployment.
 
 ⸻
 
-👨‍💻 Maintainer
+🧠 Powered By
+	•	OpenAI GPT-4
+	•	LangChain
+	•	Firebase
+	•	Google Cloud Run
+
+⸻
+
+📬 Contact
+
+For any queries or contributions, reach out to:
 
 Sanskar Gupta
-GitHub: @sanskargupta1808
+📧 sanskar@example.com
+🌐 GitHub
 
 ⸻
-
-📄 License
-
-MIT License
