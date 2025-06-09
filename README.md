@@ -180,7 +180,7 @@ From requirements.txt:
 For any queries or contributions, reach out to:
 
 Sanskar Gupta
-📧 sanskar@example.com
-🌐 GitHub
-
+📧 sanskarsg38@gmail.com
+🌐 https://sanskarsgupta.netlify.app
+https://github.com/sanskargupta1808
 ⸻
