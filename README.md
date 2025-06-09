@@ -1,12 +1,4 @@
-Here’s a complete README.md file for your DocChat Backend project including:
-	•	✅ Setup Instructions (local & Cloud Run)
-	•	🏗 Architecture Overview
-	•	📡 API Usage Guidelines
-
-You can copy-paste this directly into your project root.
-
-⸻
-
+# DocChat
 
 # 🧠 DocChat Backend
 
@@ -68,7 +60,7 @@ http://localhost:8080/
 
 ⸻
 
-☁️ Google Cloud Run Deployment
+#☁️ Google Cloud Run Deployment
 
 Prerequisites: GCP account, gcloud CLI, billing enabled
 
@@ -96,7 +88,7 @@ gcloud run deploy docchat-backend \
 
 ⸻
 
-🧱 Architecture Overview
+#🧱 Architecture Overview
 
 User
  │
@@ -118,7 +110,7 @@ Core Components:
 
 ⸻
 
-📡 API Usage Guidelines
+#📡 API Usage Guidelines
 
 🔐 Authentication (Firebase)
 
